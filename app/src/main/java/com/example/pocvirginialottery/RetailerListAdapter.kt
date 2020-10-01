@@ -16,9 +16,8 @@ class RetailerListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         this.list = list
     }
 
-    fun setlistner(onClickListener: View.OnClickListener) {
-
-this.onClickListener=onClickListener
+    fun setlistener(onClickListener: View.OnClickListener) {
+        this.onClickListener = onClickListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,15 +31,12 @@ this.onClickListener=onClickListener
         return list.size
     }
 
-    class ViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    }
+    class ViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {}
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.tag = position
-        val photo =
+        val PHOTO_REFERENCE =
             if (list[position].photos != null) list[position].photos[0].photo_reference else ""
-        val PHOTO_REFERENCE = photo
         val MAX_HEIGHT = "100"
         val MAX_WIDTH = "100"
         val KEY = Constants.API_KEY

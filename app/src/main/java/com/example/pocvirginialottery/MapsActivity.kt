@@ -1,7 +1,9 @@
 package com.example.pocvirginialottery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pocvirginialottery.retroclient.Api
 import com.example.pocvirginialottery.retroclient.ApiClient
@@ -21,14 +23,14 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     lateinit var adapter: RetailerListAdapter
-
-
-    lateinit var latlngList:MutableList<LatLng>
+    lateinit var latlngList: MutableList<LatLng>
+    var builder: AlertDialog.Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fullScreen()
         setContentView(R.layout.activity_maps)
+        builder = AlertDialog.Builder(this)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -37,29 +39,17 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         callPlacesApi()
     }
 
-
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
     }
 
-    private fun addMarkers(loction:LatLng, title:String){
+    private fun addMarkers(loction: LatLng, title: String) {
         mMap.addMarker(MarkerOptions().position(loction).title(title))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(loction))
     }
 
-
     // Zooming for particular lat long
-    private fun zoomTo(pos:Int){
+    private fun zoomTo(pos: Int) {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latlngList[pos]))
         mMap.animateCamera(
             CameraUpdateFactory.newLatLngZoom(
@@ -70,41 +60,72 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
 
     private fun recyclerViewSetUp() {
         adapter = RetailerListAdapter()
-        var list= mutableListOf<Result>()
+        var list = mutableListOf<Result>()
         adapter.setDataList(list)
-        adapter.setlistner(listner)
+        adapter.setlistener(listner)
         val layoutManger = LinearLayoutManager(this)
-        layoutManger.orientation=LinearLayoutManager.HORIZONTAL
+        layoutManger.orientation = LinearLayoutManager.HORIZONTAL
         retaileRecyclerView.layoutManager = layoutManger
         retaileRecyclerView.adapter = adapter
     }
 
     // Click listener of horizontal list
-    val listner= View.OnClickListener {
+    val listner = View.OnClickListener {
         zoomTo(it.tag as Int)
     }
 
     //APi calling
-    private fun callPlacesApi(){
+    private fun callPlacesApi() {
         val client = ApiClient.getClient()
         val api = client?.create(Api::class.java)
-        api?.getPlaces("virginia+lottery+retailers", Constants.API_KEY)
+
+        var intentdata = intent.extras?.get("ZIPCODE")
+        var zipcode: String = ""
+        var query = "virginia+lottery+retailers"
+        if (intentdata != null) {
+            zipcode = intentdata as String
+            query = "$query+$zipcode"
+        }
+        Log.i("zipcode", query)
+
+        api?.getPlaces(query, Constants.API_KEY)
             ?.enqueue(object : Callback<PlacesModel> {
                 override fun onFailure(call: Call<PlacesModel>, t: Throwable) {
 
+
                 }
+
                 override fun onResponse(call: Call<PlacesModel>, response: Response<PlacesModel>) {
-                    adapter.setDataList(response.body()!!.results as MutableList<Result>)
-                    adapter.notifyDataSetChanged()
-                    latlngList= mutableListOf<LatLng>()
-                    latlngList.clear()
-                    for(x in response.body()!!.results){
-                        val loc=LatLng(x.geometry.location.lat,x.geometry.location.lng)
-                        latlngList.add(loc)
-                        addMarkers(loc,"${x.formatted_address}")
+
+                    Log.i("respo","${response.body()!!.results.size}")
+                    if (response.body()!!.results.isNullOrEmpty()) {
+                        // dialog for going
+                        dialog()
+                    }else{
+                        adapter.setDataList(response.body()!!.results as MutableList<Result>)
+                        adapter.notifyDataSetChanged()
+                        latlngList = mutableListOf<LatLng>()
+                        latlngList.clear()
+                        for (x in response.body()!!.results) {
+                            val loc = LatLng(x.geometry.location.lat, x.geometry.location.lng)
+                            latlngList.add(loc)
+                            addMarkers(loc, "${x.formatted_address}")
+                        }
                     }
+
                 }
             })
     }
 
+
+    private fun dialog() {
+        builder!!.setMessage(" No Retailer record found")
+            .setCancelable(false)
+            .setPositiveButton("ok") { dialog, id ->
+                finish()
+            }
+        val alert = builder!!.create()
+        alert.setTitle("Alert")
+        alert.show()
+    }
 }

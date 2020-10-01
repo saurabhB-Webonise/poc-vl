@@ -1,7 +1,6 @@
 package com.example.pocvirginialottery
 
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pocvirginialottery.retroclient.Api
 import com.example.pocvirginialottery.retroclient.ApiClient
@@ -25,17 +24,13 @@ class RetailerListActivity : BaseActivity() {
         backButton.setOnClickListener {
             finish()
         }
-
-
-        var list= mutableListOf<Result>()
+        var list = mutableListOf<Result>()
         recyclerViewSetUp()
         adapter.setDataList(list)
-
-         callPlacesApi()
-
+        callPlacesApi()
     }
 
-    private fun callPlacesApi(){
+    private fun callPlacesApi() {
         val client = ApiClient.getClient()
         val api = client?.create(Api::class.java)
         api?.getPlaces("virginia+lottery+retailers", Constants.API_KEY)
@@ -43,8 +38,8 @@ class RetailerListActivity : BaseActivity() {
                 override fun onFailure(call: Call<PlacesModel>, t: Throwable) {
 
                 }
+
                 override fun onResponse(call: Call<PlacesModel>, response: Response<PlacesModel>) {
-                    Log.i("respon", response.body()!!.results[0].name)
                     adapter.setDataList(response.body()!!.results as MutableList<Result>)
                     adapter.notifyDataSetChanged()
                 }
