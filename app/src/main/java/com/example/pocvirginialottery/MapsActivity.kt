@@ -1,6 +1,5 @@
 package com.example.pocvirginialottery
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,17 +50,15 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-       // mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
-    private fun goto(loction:LatLng,title:String){
+    private fun addMarkers(loction:LatLng, title:String){
         mMap.addMarker(MarkerOptions().position(loction).title(title))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(loction))
     }
 
+
+    // Zooming for particular lat long
     private fun zoomTo(pos:Int){
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latlngList[pos]))
         mMap.animateCamera(
@@ -75,21 +72,19 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         adapter = RetailerListAdapter()
         var list= mutableListOf<Result>()
         adapter.setDataList(list)
-
         adapter.setlistner(listner)
-
         val layoutManger = LinearLayoutManager(this)
         layoutManger.orientation=LinearLayoutManager.HORIZONTAL
         retaileRecyclerView.layoutManager = layoutManger
         retaileRecyclerView.adapter = adapter
     }
 
-
+    // Click listener of horizontal list
     val listner= View.OnClickListener {
         zoomTo(it.tag as Int)
     }
 
-
+    //APi calling
     private fun callPlacesApi(){
         val client = ApiClient.getClient()
         val api = client?.create(Api::class.java)
@@ -106,7 +101,7 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
                     for(x in response.body()!!.results){
                         val loc=LatLng(x.geometry.location.lat,x.geometry.location.lng)
                         latlngList.add(loc)
-                        goto(loc,"${x.formatted_address}")
+                        addMarkers(loc,"${x.formatted_address}")
                     }
                 }
             })
