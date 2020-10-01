@@ -92,7 +92,6 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
             ?.enqueue(object : Callback<PlacesModel> {
                 override fun onFailure(call: Call<PlacesModel>, t: Throwable) {
 
-
                 }
 
                 override fun onResponse(call: Call<PlacesModel>, response: Response<PlacesModel>) {
