@@ -2,6 +2,7 @@ package com.example.pocvirginialottery
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.example.pocvirginialottery.retroclient.Api
 import com.example.pocvirginialottery.retroclient.ApiClient
 import com.google.android.gms.maps.model.LatLng
@@ -34,5 +35,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    fun toast(){
+        Toast.makeText(this," Wait! Searching for result...",Toast.LENGTH_LONG).show()
+    }
 
 }

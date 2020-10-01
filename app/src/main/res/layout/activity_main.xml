@@ -7,6 +7,32 @@
     android:background="@color/colorWhite2"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarVf"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textStyle="bold"
+                android:text="Search Retailers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/colorWhite2"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+
 
     <ImageView
         android:layout_width="100dp"
@@ -68,7 +94,7 @@
             android:layout_weight="5"
             android:background="@drawable/searcg_box"
             android:gravity="center"
-            android:hint="zipcode..."
+            android:hint="Enter zip code to search"
             android:inputType="textPostalAddress"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorAccent" />

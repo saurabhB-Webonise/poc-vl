@@ -13,7 +13,10 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_maps.*
 import kotlinx.android.synthetic.main.activity_retailer_list.*
+import kotlinx.android.synthetic.main.activity_retailer_list.backButton
+import kotlinx.android.synthetic.main.activity_retailer_list.retaileRecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +40,10 @@ class MapsActivity : BaseActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         recyclerViewSetUp()
         callPlacesApi()
+
+        backButton.setOnClickListener{
+            finish()
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

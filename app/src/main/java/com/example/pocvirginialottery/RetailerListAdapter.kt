@@ -52,5 +52,12 @@ class RetailerListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         holder.itemView.name.text = list[position].name
         holder.itemView.address.text = list[position].formatted_address
         holder.itemView.setOnClickListener(onClickListener)
+
+        if(list[position].opening_hours!=null){
+            holder.itemView.openclose.text= if(list[position].opening_hours.open_now)"Opened" else "Closed"
+        }else{
+            holder.itemView.openclose.text="Open-Close No Info "
+        }
+        holder.itemView.rating.text="Rating ${list[position].rating}"
     }
 }
