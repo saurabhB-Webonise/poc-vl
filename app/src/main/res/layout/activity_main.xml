@@ -9,9 +9,9 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarVf"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,37 +19,38 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
-                android:textStyle="bold"
-                android:text="Search Retailers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:text="Search Retailers"
                 android:textColor="@color/colorWhite2"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
 
-
-
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:id="@+id/logo"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="50dp"
         android:background="?attr/selectableItemBackground"
         android:src="@drawable/logo"
         android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbarVf" />
 
     <Button
+        android:layout_marginTop="10dp"
         android:id="@+id/showButton"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/button_background"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -60,7 +61,8 @@
         android:textSize="11sp"
         app:layout_constraintBottom_toTopOf="@+id/txtOr"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
 
 
     <TextView
@@ -83,9 +85,10 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="50dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtOr">
 
         <EditText
             android:id="@+id/editZipCode"
@@ -95,7 +98,7 @@
             android:background="@drawable/searcg_box"
             android:gravity="center"
             android:hint="Enter zip code to search"
-            android:inputType="textPostalAddress"
+            android:inputType="number"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorAccent" />
 
