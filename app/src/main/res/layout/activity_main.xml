@@ -72,10 +72,5 @@
                     android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
                     android:textSize="11sp" />
-
             </LinearLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

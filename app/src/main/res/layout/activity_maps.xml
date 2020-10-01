@@ -21,6 +21,5 @@
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/row_retailer" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
